@@ -4,6 +4,7 @@ package com.spring.spring.treino.services;
 import com.spring.spring.treino.dto.GameDTO;
 import com.spring.spring.treino.dto.GameMinDTO;
 import com.spring.spring.treino.entities.Game;
+import com.spring.spring.treino.projections.GameMinProjection;
 import com.spring.spring.treino.repositories.GameRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -31,5 +32,11 @@ public class GameService {
         return dto;
     }
 
+    @Transactional(readOnly = true)
+    public List<GameMinDTO> findByList(Long listId){
+        List<GameMinProjection> result = gameRepository.searchByList(listId);
+        List<GameMinDTO> dto = result.stream().map(x -> new GameMinDTO(x)).toList();
+        return dto;
+    }
 
 }
